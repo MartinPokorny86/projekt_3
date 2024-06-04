@@ -106,9 +106,9 @@ def webscraping(obce_web, obce_kody):
             town_tag = nazvy_stran_bs.find('h3', string=lambda x: x and 'Obec:' in x)
             town_name = town_tag.text.split(': ')[1].strip() if town_tag else "N/A"
             obce_data.append(town_name)
-            vyhledani_pripojeni_dat(nazvy_stran_bs, "sa2", obce_data)  # registered data
-            vyhledani_pripojeni_dat(nazvy_stran_bs, "sa3", obce_data)  # enveloped data
-            vyhledani_pripojeni_dat(nazvy_stran_bs, "sa6", obce_data)  # valid data
+            vyhledani_pripojeni_dat(nazvy_stran_bs, "sa2", obce_data)  # voliči v seznamu
+            vyhledani_pripojeni_dat(nazvy_stran_bs, "sa3", obce_data)  # vydané obálky
+            vyhledani_pripojeni_dat(nazvy_stran_bs, "sa6", obce_data)  # platné hlasy
 
             for headers in ["t1sa2 t1sb3", "t2sa2 t2sb3"]:
                 numbers_td = nazvy_stran_bs.find_all("td", {"class": "cislo", "headers": headers})
