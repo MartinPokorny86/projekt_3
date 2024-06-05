@@ -11,7 +11,7 @@ import csv
 from bs4 import BeautifulSoup as bs
 from requests import get
 
-# nd.krok: spuštění stahování dat z webu a jejich zápis do CSV souboru
+# spuštění stahování dat z webu a jejich zápis do CSV souboru
 
 def main(web_umisteni, nazev_souboru):
     """
@@ -52,14 +52,21 @@ def nazvy_stran(response):
     Funkce vypíše názvy stran z daného webového odkazu
     """
     # parsování HTML obsahu
+    
     nazvy_stran_bs = bs(response.content, "html.parser")
+    
     # najdeme názvy stran v první tabulce
+    
     prvni_tabulka = nazvy_stran_bs.find_all('td', headers='t1sa1 t1sb2')
     prvni_tabulka_nazvy = [znak.get_text(strip=True) for znak in prvni_tabulka]
+    
     # najdeme názvy stran v druhé tabulce
+    
     druha_tabulka = nazvy_stran_bs.find_all('td', headers='t2sa1 t2sb2')
     druha_tabulka_nazvy = [znak.get_text(strip=True) for znak in druha_tabulka]
+    
     # sloučíme výsledky a vrátíme sjednocený seznam stran
+    
     vsechny_nazvy = prvni_tabulka_nazvy + druha_tabulka_nazvy
     return vsechny_nazvy
 
@@ -128,12 +135,11 @@ def zapis_csv(finalni, nazev_souboru, kandidujici_strany):
         writer.writerow(['kód obce', 'název obce', 'voliči v seznamu', 'vydané obálky', 'platné hlasy'] + kandidujici_strany)
         writer.writerows(finalni)
 
-# rd. krok: získáme informace z HTML stránky pomocí parsování HTML a knihovny BeautifulSoup4
+# získáme informace z HTML stránky pomocí parsování HTML a knihovny BeautifulSoup4
 
 def distinct_url_code(web_umisteni, prefix):
     """
     Funkce získá HTML informace k odkazům pro jednotlivé obce
-    This function downloads and filters the URLs of each town and their codes.
     """
     kod_obce = get(web_umisteni)
     kod_obce_bs = bs(kod_obce.content, "html.parser")
@@ -144,7 +150,7 @@ def distinct_url_code(web_umisteni, prefix):
             distinct_urls.add(full_url)
     return list(distinct_urls)
 
-# st. krok: kontrola zadaných argumentů uživatelem
+# kontrola zadaných argumentů uživatelem
 
 def kontrola_argumentu(web_umisteni, nazev_souboru):
     """
